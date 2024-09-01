@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+</head>
+<body>
+    <h1>Add a Book</h1>
+    <form id="addBookForm">
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" minlength="10" maxlength="10" required><br><br>
+        <label for="title">Title:</label>
+        <input type="text" id="title" required><br><br>
+        <label for="author">Author:</label>
+        <input type="text" id="author" required><br><br>
+        <label for="publicationYear">Publication Year:</label>
+        <input type="number" id="publicationYear" maxlength="4"><br><br>
+        <button type="submit">Add Book</button>
+    </form>
+    <script>
+        document.getElementById('addBookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const isbn = document.getElementById('isbn').value;
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const publicationYear = document.getElementById('publicationYear').value;
+
+            const response = await fetch('/api/books/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ isbn, title, author, publicationYear })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        });
+    </script>
+</body>
+</html>
